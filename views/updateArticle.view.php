@@ -4,11 +4,14 @@
 
 <div class="inputarea">
 <form  action="/update_article" method="post" >
-    Otsikko: <input type="text" name="newstitle" maxlength=30 value="<?=$title?>"><br>
-    Uutinen: <textarea name="newstext" rows="5" cols="30"><?=$text?></textarea><br>          
-    <label for="news-time" >Valitse artikkelin päivämäärä</label>
-    <input type="datetime-local" id="meeting-time" name="newstime" value=<?=$time?>> 
-    Poistopäivä: <input type="date" name="removedate" value=<?=$removetime?>><br>
+    <label for="title">Otsikko:</label>
+    <input id="title" type="text" name="newstitle" maxlength=30 value="<?=$title?>">
+    <label for="text">Uutinen:</label>
+    <textarea id="text" name="newstext" rows="5" cols="30"><?=$text?></textarea>     
+    <label for="date">Valitse artikkelin päivämäärä</label>
+    <input id="date" type="datetime-local"  name="newstime" value=<?=$time?>> 
+    <label for="rdate">Poistopäivä:</label>
+    <input id="rdate" type="date" name="removedate" value=<?=$removetime?>>
     <input type="hidden" id="articleid" name="id" value=<?=$id?>>
     <input id="sendbutton" type="submit" value="Lähetä">
 </form>

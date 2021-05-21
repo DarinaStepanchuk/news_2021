@@ -4,8 +4,10 @@
 
 <div class="inputarea">
 <form  action="/login" method="post">
-    Käyttäjänimi: <input type="text" name="username" maxlength=30><br>
-    Salasana: <input type="password" name="password" maxlength=30><br>
+    <label for="uname">Käyttäjänimi:</label>
+    <input id="uname" type="text" name="username" maxlength=30>
+    <label for="pwprd">Salasana:</label>
+    <input id="pword" type="password" name="password" maxlength=30>
     <input id="sendbutton" type="submit" value="Lähetä">
 </form>
 </div>
