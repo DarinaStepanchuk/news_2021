@@ -1,7 +1,8 @@
 <?php
+require_once "database/connection.php";
 
 function getAllArticles(){
-    global $pdo;
+    $pdo =connectDB();
     $sql = "SELECT * FROM articles";
     $stm = $pdo->query($sql);
     $all = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -9,43 +10,32 @@ function getAllArticles(){
 }
 
 function addArticle($title, $text, $time, $removetime, $userid){
-    global $pdo;
-    $cleantitle = cleanUpInput($title); 
-    $cleantext = cleanUpInput($text);
-    $cleantime = cleanUpInput($time);
-    $cleanremovetime = cleanUpInput($removetime);
-    $data = [$cleantitle, $cleantext, $cleantime, $cleanremovetime, $userid];
+    $pdo =connectDB();
+    $data = [$title, $text, $time, $removetime, $userid];
     $sql = "INSERT INTO articles (title, text, created, expirydate, userid) VALUES(?,?,?,?,?)";
     $stm=$pdo->prepare($sql);
     return $stm->execute($data);
 }
 
 function getArticleById($id){
-    global $pdo;
-    $cleanid = cleanUpInput($id);
+    $pdo = connectDB();
     $sql = "SELECT * FROM articles WHERE articleid=?";
     $stm= $pdo->prepare($sql);
-    $stm->execute([$cleanid]);
+    $stm->execute([$id]);
     $all = $stm->fetch(PDO::FETCH_ASSOC);
     return $all;
 }
 
 function deleteArticle($id){
-    global $pdo;
-    $cleanid = cleanUpInput($id);
+    $pdo = connectDB();
     $sql = "DELETE FROM articles WHERE articleid=?";
     $stm=$pdo->prepare($sql);
-    return $stm->execute([$cleanid]);
+    return $stm->execute([$id]);
 }
 
 function updateArticle($title, $text, $time, $removetime, $articleid){
-    global $pdo;
-    $cleantitle = cleanUpInput($title); 
-    $cleantext = cleanUpInput($text);
-    $cleantime = cleanUpInput($time);
-    $cleanremovetime = cleanUpInput($removetime);
-    $cleanarticleid = cleanUpInput($articleid);
-    $data = [$cleantitle, $cleantext, $cleantime, $cleanremovetime, $cleanarticleid];
+    $pdo = connectDB();
+    $data = [$title, $text, $time, $removetime, $articleid];
     $sql = "UPDATE articles SET title = ?, text = ?, created = ?, expirydate = ? WHERE articleid = ?";
     $stm = $pdo->prepare($sql);
     return $stm->execute($data);

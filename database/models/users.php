@@ -1,23 +1,20 @@
 <?php
+require_once "database/connection.php";
 
 function addUser($firstname, $lastname, $username, $password){
-    global $pdo;
-    $cleanfirstname = cleanUpInput($firstname);
-    $cleanlastname = cleanUpInput($lastname);
-    $cleanusername =  cleanUpInput($username);
+    $pdo = connectDB();
     $hashedpassword = hashPassword($password);
-    $data = [$cleanfirstname, $cleanlastname, $cleanusername, $hashedpassword];
+    $data = [$firstname, $lastname, $username, $hashedpassword];
     $sql = "INSERT INTO users (firstname, lastname, username, password) VALUES(?,?,?,?)";
     $stm=$pdo->prepare($sql);
-    return ($stm->execute($data));
+    return $stm->execute($data);
 }
 
 function login($username, $password){
-    global $pdo;
-    $cleanusername = cleanUpInput($username);
+    $pdo = connectDB();
     $sql = "SELECT * FROM users WHERE username=?";
     $stm= $pdo->prepare($sql);
-    $stm->execute([$cleanusername]);
+    $stm->execute([$username]);
     $user = $stm->fetch(PDO::FETCH_ASSOC);
     $hashedpassword = $user["password"];
 

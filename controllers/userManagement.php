@@ -1,13 +1,14 @@
 <?php
-require_once "database/connection.php";
 require_once "database/models/users.php";
+require_once 'libraries/cleaners.php';
 
 function registerController(){
     if(isset($_POST['lastname'], $_POST['firstname'], $_POST['username'], $_POST['password'])){
-        $lastname = $_POST['lastname'];
-        $firstname = $_POST['firstname'];
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $lastname = cleanUpInput($_POST['lastname']);
+        $firstname = cleanUpInput($_POST['firstname']);
+        $username = cleanUpInput($_POST['username']);
+        $password = cleanUpInput($_POST['password']);
+
         try {
             addUser($firstname, $lastname, $username, $password);
             header("Location: /login"); 
@@ -21,8 +22,8 @@ function registerController(){
 
 function loginController(){
     if(isset($_POST['username'], $_POST['password'])){
-        $username = $_POST['username'];
-        $password = $_POST['password'];
+        $username = cleanUpInput($_POST['username']);
+        $password = cleanUpInput($_POST['password']);
   
         $result = login($username, $password);
         if($result){

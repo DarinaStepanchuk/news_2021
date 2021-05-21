@@ -1,6 +1,6 @@
 <?php
-require_once "database/connection.php";
 require_once "database/models/article.php";
+require_once 'libraries/cleaners.php';
 
 function viewArticlesController(){
     $allnews = getAllArticles();
@@ -9,11 +9,10 @@ function viewArticlesController(){
 
 function addArticleController(){
     if(isset($_POST['newstitle'], $_POST['newstext'], $_POST['newstime'], $_POST['removedate'])){
-        $title = $_POST['newstitle'];
-        $text = $_POST['newstext'];
-        $time = $_POST['newstime'];
-        $removetime = $_POST['removedate'];
-       
+        $title = cleanUpInput($_POST['newstitle']);
+        $text = cleanUpInput($_POST['newstext']);
+        $time = cleanUpInput($_POST['newstime']);
+        $removetime = cleanUpInput($_POST['removedate']);   
         $userid = $_SESSION["userid"];
         addArticle($title, $text, $time, $removetime, $userid); 
         header("Location: /");    
@@ -25,7 +24,7 @@ function addArticleController(){
 function editArticleController(){
     try {
         if(isset($_GET["id"])){
-            $id = $_GET["id"];
+            $id = cleanUpInput($_GET["id"]);
             $news = getArticleById($id);
         } else {
             echo "Virhe: id puuttuu ";    
@@ -52,11 +51,11 @@ function editArticleController(){
 
 function updateArticleController(){
     if(isset($_POST['newstitle'], $_POST['newstext'], $_POST['newstime'], $_POST['removedate'], $_POST["id"])){
-        $title = $_POST['newstitle'];
-        $text = $_POST['newstext'];
-        $time = $_POST['newstime'];
-        $removetime = $_POST['removedate'];
-        $id = $_POST["id"];
+        $title = cleanUpInput($_POST['newstitle']);
+        $text = cleanUpInput($_POST['newstext']);
+        $time = cleanUpInput($_POST['newstime']);
+        $removetime = cleanUpInput($_POST['removedate']);
+        $id = cleanUpInput($_POST["id"]);
 
         try{
             updateArticle($title, $text, $time, $removetime, $id);
@@ -73,7 +72,7 @@ function updateArticleController(){
 function deleteArticleController(){
     try {
         if(isset($_GET["id"])){
-            $id = $_GET["id"];
+            $id = cleanUpInput($_GET["id"]);
             deleteArticle($id);
         } else {
             echo "Virhe: id puuttuu ";    

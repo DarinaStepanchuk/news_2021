@@ -21,9 +21,6 @@
 <nav>
     <ul class="navbar">
         <li class="navbutton"><a href="/">Lue uutiset</a></li>
-
-        <?php require_once "libraries/Helpers.php"; ?>
-
         <?php if(!isLoggedIn()): ?>
            <li class="navbutton"><a href="/login">Login</a></li> 
            <li class="navbutton"><a href="/register">Rekisteröidy</a></li>
